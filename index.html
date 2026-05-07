@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>畅楼云 | 物业管理中台</title>
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="icon" href="./assets/app-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="console-body">
+    <div class="console-shell">
+      <aside class="console-sidebar">
+        <div class="console-brand">
+          <p class="eyebrow">畅楼云</p>
+          <h1>物业管理中台</h1>
+          <p class="subtitle">围绕楼道堆物治理，把工单、服务调度、积分激励和共治运营放进一套日常工作台。</p>
+        </div>
+
+        <nav class="console-nav" aria-label="中台导航">
+          <button class="console-nav-item is-active" data-console-tab="dashboard" type="button">治理看板</button>
+          <button class="console-nav-item" data-console-tab="events" type="button">事件工单</button>
+          <button class="console-nav-item" data-console-tab="residents" type="button">住户档案</button>
+          <button class="console-nav-item" data-console-tab="storage" type="button">暂存区</button>
+          <button class="console-nav-item" data-console-tab="rewards" type="button">激励中心</button>
+          <button class="console-nav-item" data-console-tab="governance" type="button">共治运营</button>
+          <button class="console-nav-item" data-console-tab="operations" type="button">扩展模块</button>
+        </nav>
+
+        <div class="console-side-panel">
+          <p class="kicker">今日工作重点</p>
+          <div class="console-side-list">
+            <article>
+              <strong>红色风险先闭环</strong>
+              <p>先推高龄住户和消防通道相关事件。</p>
+            </article>
+            <article>
+              <strong>把志愿任务做成可报名</strong>
+              <p>任务要清晰、轻量、可获得反馈。</p>
+            </article>
+            <article>
+              <strong>激励不是发券，而是运营</strong>
+              <p>看到账本、等级和楼栋荣誉的联动。</p>
+            </article>
+          </div>
+        </div>
+      </aside>
+
+      <div class="console-workspace">
+        <header class="console-header">
+          <div class="console-header-copy">
+            <p class="eyebrow">运营总览</p>
+            <h2>今天要让住户更愿意处理，让物业更容易推进</h2>
+          </div>
+          <div class="console-header-actions">
+            <a class="secondary-link" href="./resident.html">打开业主端</a>
+            <button class="ghost-button" id="console-reset" type="button">重置演示数据</button>
+          </div>
+        </header>
+
+        <section class="console-toolbar">
+          <article class="toolbar-card" id="toolbar-community"></article>
+          <article class="toolbar-card" id="toolbar-focus"></article>
+          <article class="toolbar-card" id="toolbar-risk"></article>
+          <article class="toolbar-card toolbar-actions-card" id="toolbar-actions"></article>
+        </section>
+
+        <main class="console-main">
+          <section class="console-tab is-visible" id="console-dashboard">
+            <div class="metric-grid six-col" id="dashboard-metrics"></div>
+
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">风险分布</p>
+                    <h2>楼栋优先级</h2>
+                  </div>
+                </div>
+                <div class="building-list" id="dashboard-buildings"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">运营洞察</p>
+                    <h2>今天该盯什么</h2>
+                  </div>
+                </div>
+                <div class="timeline-list" id="dashboard-insights"></div>
+              </section>
+            </div>
+
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">待办动作</p>
+                    <h2>运营工作台</h2>
+                  </div>
+                </div>
+                <div class="action-grid" id="dashboard-actions"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">闭环表现</p>
+                    <h2>结果摘要</h2>
+                  </div>
+                </div>
+                <div class="insight-list" id="dashboard-outcomes"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="console-tab" id="console-events">
+            <section class="surface">
+              <div class="section-heading">
+                <div>
+                  <p class="kicker">事件工单</p>
+                  <h2>楼道治理工单工作台</h2>
+                </div>
+                <div class="toolbar">
+                  <select id="event-severity-filter" aria-label="风险等级筛选">
+                    <option value="all">全部风险</option>
+                    <option value="red">红色风险</option>
+                    <option value="yellow">黄色风险</option>
+                    <option value="blue">蓝色风险</option>
+                  </select>
+                  <select id="event-status-filter" aria-label="状态筛选">
+                    <option value="all">全部状态</option>
+                    <option value="pending">待处理</option>
+                    <option value="in_progress">处理中</option>
+                    <option value="completed">已闭环</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="event-layout event-layout-workbench">
+                <div class="event-list event-list-workbench" id="event-list"></div>
+                <article class="surface detail-surface" id="event-detail"></article>
+                <aside class="surface event-side-panel" id="event-side-panel"></aside>
+              </div>
+            </section>
+          </section>
+
+          <section class="console-tab" id="console-residents">
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">住户画像</p>
+                    <h2>谁更需要低打扰推进</h2>
+                  </div>
+                </div>
+                <div class="resident-list" id="resident-list"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">策略建议</p>
+                    <h2>不同住户怎么推进更顺</h2>
+                  </div>
+                </div>
+                <div class="strategy-list" id="resident-strategies"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="console-tab" id="console-storage">
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">周转位</p>
+                    <h2>暂存区占用情况</h2>
+                  </div>
+                </div>
+                <div class="slot-grid" id="storage-slots"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">到期提醒</p>
+                    <h2>临期位和维护状态</h2>
+                  </div>
+                </div>
+                <div class="timeline-list" id="storage-timeline"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="console-tab" id="console-rewards">
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">激励中心</p>
+                    <h2>奖励投放与使用表现</h2>
+                  </div>
+                </div>
+                <div class="reward-grid" id="reward-grid"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">复盘</p>
+                    <h2>什么奖励更有效</h2>
+                  </div>
+                </div>
+                <div class="timeline-list" id="reward-review"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="console-tab" id="console-governance">
+            <div class="metric-grid three-col" id="governance-metrics"></div>
+
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">任务池</p>
+                    <h2>志愿任务流转</h2>
+                  </div>
+                </div>
+                <div class="task-grid" id="volunteer-task-list"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">成果沉淀</p>
+                    <h2>楼栋成果卡</h2>
+                  </div>
+                </div>
+                <div class="result-card-list" id="building-result-wall"></div>
+              </section>
+            </div>
+
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">志愿者库</p>
+                    <h2>谁适合被调度</h2>
+                  </div>
+                </div>
+                <div class="resident-list" id="volunteer-list"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">运营打法</p>
+                    <h2>本周动作清单</h2>
+                  </div>
+                </div>
+                <div class="playbook-list" id="governance-playbook"></div>
+              </section>
+            </div>
+
+            <div class="console-grid two-up">
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">认知运营</p>
+                    <h2>内容、表达和反馈</h2>
+                  </div>
+                </div>
+                <div class="cognition-list" id="cognition-list"></div>
+              </section>
+
+              <section class="surface">
+                <div class="section-heading">
+                  <div>
+                    <p class="kicker">双积分规则</p>
+                    <h2>住户积分与贡献积分</h2>
+                  </div>
+                </div>
+                <div class="rule-list" id="points-rule-list"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="console-tab" id="console-operations">
+            <section class="surface">
+              <div class="section-heading">
+                <div>
+                  <p class="kicker">扩展模块</p>
+                  <h2>完整管理系统展示面</h2>
+                </div>
+              </div>
+              <div class="metric-grid three-col" id="operation-modules"></div>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./shared-state.js"></script>
+    <script src="./console.js"></script>
+  </body>
+</html>
